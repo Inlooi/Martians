@@ -25,7 +25,6 @@ public class project{
         ArrayList<Integer> coordinates = new ArrayList<>();
         while (coordinates.size() < 3) {
             int randomNumber = rd.nextInt(7) + 1;
-                coordinates.add(randomNumber);
             if (!coordinates.contains(randomNumber)) {
                 coordinates.add(randomNumber);
             }
