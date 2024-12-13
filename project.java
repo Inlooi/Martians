@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class project{
@@ -8,57 +7,80 @@ public class project{
         Random rd = new Random();
 
 
-
-
         int attempts = 0;
-        int correct = 0;
-
 
 
         while(attempts < 5){
+
         attempts++;
         System.out.println("Attempt "+(attempts)+":");
-        System.out.println("Write your numbers(please with space between)");
-        ArrayList<Integer> guessedCorrect = new ArrayList<>();
+        System.out.println("Write your 3 numbers (please with space between)");
 
+        int[] guessedCorrect = new int [3];
+        int[] coordinates = randomCoordinates(rd);
 
-        ArrayList<Integer> coordinates = new ArrayList<>();
-        while (coordinates.size() < 3) {
-            int randomNumber = rd.nextInt(7) + 1;
-            if (!coordinates.contains(randomNumber)) {
-                coordinates.add(randomNumber);
+        
+        for(int i = 0; i < 3;i++){
+            int input = sc.nextInt();
+            if (input >= 1 && input <= 7) {
+                guessedCorrect[i] = input;
+            }else{
+                System.out.println("Invalid input. Please enter a value between 1 and 7.");
+                i--;
             }
         }
 
-        for(int i = 0; i<3;i++){
-            int input = sc.nextInt();
-            if (input >= 0 && input <= 7) {
-                guessedCorrect.add(input);
-            } else {
-                System.out.println("Invalid input. Please enter a value between 0 and 7.");
-                i--;
-        }
-        }
+        System.out.println("Correctly guessed locations: "+checkCorrect(guessedCorrect, coordinates)+"/3");
+        System.out.println("The correct numbers were: " + coordinates[0] + ", " + coordinates[1] + ", " + coordinates[2]);
 
-        System.out.println("Correctly guessed locations: "+checkCorrect(guessedCorrect, coordinates, correct));
-        System.out.println(coordinates);
-        if(checkCorrect(guessedCorrect, coordinates, correct) == 3){
+        if(checkCorrect(guessedCorrect, coordinates) == 3){
             System.out.println("Congratulations! You correctly guessed all boxes!");
             System.exit(0);
         }
+
         if(attempts == 5){
-          System.out.println("You've run out of attempts.");
-          return;
+            System.out.println("You've run out of attempts.");
+            System.exit(0);
         }
+
        }
        sc.close();
     }
-    public static int checkCorrect(ArrayList<Integer> guessedCorrect, ArrayList<Integer> coordinates, int correct){
-        for (Integer pos : coordinates) {
-            if (guessedCorrect.contains(pos)) {
-                correct++;
+
+    private static int checkCorrect(int[] guessedCorrect, int[] coordinates){
+        int correctCount = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (guessedCorrect[i] == coordinates[j]) {
+                    correctCount++;
+                    break;
+                }
             }
         }
-        return correct;
+        return correctCount;
+    }
+
+    private static int[] randomCoordinates(Random rd){
+       int[] coordinates = new int [3];
+       int count = 0;
+
+       while (count < 3) {
+
+        boolean exists = false;
+        int randomNumber = rd.nextInt(7) + 1;
+
+        for(int i = 0; i < count; i++){
+           if(coordinates[i] == randomNumber){
+              exists = true;
+              break;
+            }
+        }
+
+        if (!exists) {
+            coordinates[count] = randomNumber;
+            count++;
+        }
+      }
+     return coordinates;
     }
 }
