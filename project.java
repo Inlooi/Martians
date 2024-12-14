@@ -9,7 +9,7 @@ public class project{
 
         int attempts = 0;
         int[] coordinates = randomCoordinates(rd);
-
+        
         while(attempts < 5){
 
         attempts++;
@@ -18,6 +18,7 @@ public class project{
 
         int[] guessedCorrect = new int [3];
         
+
         
         for(int i = 0; i < 3;i++){
             int input = sc.nextInt();
